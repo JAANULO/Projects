@@ -2,77 +2,249 @@
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
-    <title>JANULO</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JANULO - Portfolio</title>
+    <!-- Import czcionek dla lepszego wyglądu -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+
     <style>
-        /* --- NOWE STYLE DLA TŁA I TEKSTU --- */
+        /* Definicja kolorów i czcionek dla całej strony */
+        :root {
+            --bg-color: #0b132b;
+            --primary-color: #1c2541;
+            --highlight-color: #6495ED;
+            --text-color: #f0f0f0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
-            /* Ustawia ciemnoniebieskie tło dla całej strony */
-            background-color: #0b132b; /* To ładny odcień ciemnego niebieskiego */
-
-            /* Ustawia domyślny kolor tekstu na jasny dla lepszej czytelności */
-            color: #f0f0f0; /* Jasnoszary, przyjemniejszy dla oka niż czysta biel */
-
-            /* Dodajemy trochę marginesu, żeby treść nie przylegała do krawędzi okna */
-            margin: 20px;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Open Sans', sans-serif;
+            margin: 0;
+            line-height: 1.6;
         }
 
-        /* Zmiana koloru linków, aby były widoczne na ciemnym tle */
-        a {
-            color: #6495ED; /* Jasnoniebieski (Cornflower Blue) */
+        /* --- NAWIGACJA --- */
+        nav {
+            position: sticky;
+            top: 0;
+            width: 100%;
+            background-color: var(--bg-color);
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            padding: 15px 0;
         }
 
-        /* Styl dla obrazka, który ma być kołem */
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            padding: 15px 40px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.1rem;
+            border-radius: 5px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .nav-links a:hover {
+            background-color: var(--highlight-color);
+            color: white;
+        }
+
+        /* --- SEKCJA HERO (POWITALNA) - ZMIANA TUTAJ --- */
+        .hero {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            /* Zamiast min-height, używamy kontrolowanego paddingu */
+            padding: 40px 20px;
+        }
+
         #moje-zdjecie {
-            width: 200px;           /* Ustawienie szerokości */
-            height: 200px;          /* Ustawienie takiej samej wysokości, aby był kwadratem */
-            border-radius: 50%;     /* Kluczowa właściwość tworząca koło */
-            object-fit: cover;      /* Zapobiega zniekształceniu obrazka, wypełniając nim koło */
-            float: right;
-            margin: 10px 900px 15px 15px;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--highlight-color);
+            margin-bottom: 20px;
         }
-    </style>
 
+        .hero h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2.5rem;
+            margin: 20px 0 10px 0;
+            color: white;
+        }
+
+        .hero p {
+            max-width: 600px;
+            font-size: 1.1rem;
+        }
+
+        a {
+            color: var(--highlight-color);
+            font-weight: 600;
+        }
+
+        /* --- GŁÓWNA ZAWARTOŚĆ STRONY --- */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto 40px;
+            padding: 0 20px;
+        }
+
+        section {
+             padding-top: 60px;
+        }
+
+        main > section:first-of-type {
+            padding-top: 20px;
+        }
+
+        h2 {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--highlight-color);
+            border-bottom: 2px solid var(--highlight-color);
+            padding-bottom: 10px;
+            margin-top: 20px;
+        }
+
+        /* --- GALERIA ZDJĘĆ W SIATCE (GRID) --- */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .gallery-item {
+            background-color: var(--primary-color);
+            border-radius: 8px;
+            overflow: hidden;
+            text-align: center;
+            padding-bottom: 15px;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+
+        .gallery-item p {
+            margin: 5px 0;
+        }
+
+        .gallery-item .title {
+            font-weight: bold;
+            font-size: 1.1em;
+            margin-top: 15px;
+        }
+
+        .gallery-item .date {
+            font-size: 0.9em;
+            color: #aaa;
+        }
+
+    </style>
 </head>
 <body>
 
-    <h1>Witaj na mojej stronie!</h1>
+    <!-- ==================== PASEK NAWIGACJI ==================== -->
+    <nav>
+        <ul class="nav-links">
+            <li><a href="#osiagniecia">Osiągnięcia</a></li>
+            <li><a href="#projekty">Projekty</a></li>
+            <li><a href="#kontakt">Kontakt</a></li>
+        </ul>
+    </nav>
 
-    <img id="moje-zdjecie" src="farma.jpeg" alt="Zdjęcie uroczego kota">
+    <!-- ==================== SEKCJA HERO ==================== -->
+    <header class="hero">
+        <img id="moje-zdjecie" src="farma.jpeg" alt="Moje zdjęcie">
+        <h1>Janulo</h1>
+        <p>Studiuję na <strong>Politechnice Wrocławskiej</strong>, interesuję się techniczną stroną IT (PC builder), lubię też postprodukcję video.</p>
+        <p>Sporadycznie gram w <a href="https://www.chess.com/member/ja_nulo" target="_blank">szachy</a>, a czasem obejrzę jakiś <a href="https://letterboxd.com/janulo/films/" target="_blank">film</a>.</p>
+        <p>Coś bym więcej napisał ale czat mi się zkończył</p>
+        <p><s>I use Linux btw</s></p>
+    </header>
 
-    <p>Studiuje na <strong>Politechnice Wrocławskiej</strong>, interesuje się techniczną stroną IT (PC builder), lubie też postprodukcje video.</p>
-    <p>Sporadycznie gram w <a href="https://www.chess.com/member/ja_nulo">szachy</a>, a czasem obejrze jakiś <a href="https://letterboxd.com/janulo/films/">film</a>.</p>
+    <!-- ==================== GŁÓWNA TREŚĆ ==================== -->
+    <main class="container">
 
-    <p><s>I use Linux btw</s></p>
+        <!-- ==================== SEKCJA OSIĄGNIĘCIA ==================== -->
+        <section id="osiagniecia">
+            <h2>Osiągnięcia i zainteresowania</h2>
+            <ul>
+                <li>Video</li>
+                <li>Audio</li>
+                <li>Ulubione technologie: Piwo</li>
+            </ul>
+        </section>
+
+        <!-- ==================== SEKCJA PROJEKTY ==================== -->
+        <section id="projekty">
+            <h2>Projekty / Galeria</h2>
+            <div class="gallery-grid">
+
+                <div class="gallery-item">
+                    <img src="hedgehog.jpg" alt="Zdjęcie jeża">
+                    <p class="title">Protected hedgehog</p>
+                    <p class="date">26 czerwiec 2025</p>
+                </div>
+
+                <div class="gallery-item">
+                    <img src="Juwe.jpg" alt="Juwenalia">
+                    <p class="title">Juwenalia</p>
+                    <p class="date">19 maja 2025</p>
+                </div>
+
+                <div class="gallery-item">
+                    <img src="PIWO.jpg" alt="piwo">
+                    <p class="title">P.I.W.O.</p>
+                    <p class="date">15 maja 2025</p>
+                </div>
 
 
-    <h2>Moje ulubione rzeczy:</h2>
-    <ul>
-        <li>Video</li>
-        <li>Audio</li>
-        <li>Piwo</li>
+                <div class="gallery-item">
+                    <img src="w3.png" alt="Zrzut ekranu z Wiedźmina 3">
+                    <p class="title">Wiedźmin 3</p>
+                    <p class="date">12 czerwiec 2021</p>
+                </div>
+                <div class="gallery-item">
+                    <img src="park.jpg" alt="Zdjęcie beczki w parku">
+                    <p class="title">Beczka</p>
+                    <p class="date">29 czerwiec 2021</p>
+                </div>
+                <div class="gallery-item">
+                    <img src="Szrenica.jpg" alt="Zdjęcie ze Szrenicy">
+                    <p class="title">Szrenica</p>
+                    <p class="date">16 grudzień 2017</p>
+                </div>
+            </div>
+        </section>
 
-    </ul>
+        <!-- ==================== SEKCJA KONTAKT ==================== -->
+        <section id="kontakt">
+            <h2>Kontakt</h2>
+            <p>Możesz się ze mną skontaktować przez email: <strong>nie możesz</strong></p>
+        </section>
 
-    <h3>Random photo:</h3>
-
-    <img src="hedgehog.jpg" alt="Zdjęcie uroczego kota" width="400">
-    <p>Protected hedgehog</p>
-    <p>26 czerwiec 2025</p>
-
-    <img src="w3.png" alt="Zdjęcie uroczego kota" width="400">
-    <p>Wiedźmin 3</p>
-    <p>12 czerwiec 2021</p>
-
-
-    <img src="park.jpg" alt="Zdjęcie uroczego kota" width="400">
-    <p>Beczka</p>
-    <p>29 czerwiec 2021</p>
-
-
-    <img src="Szrenica.jpg" alt="Zdjęcie uroczego kota" width="400">
-    <p>Szrenica</p>
-    <p>16 grudzień 2017</p>
-
+    </main>
 
 </body>
 </html>
