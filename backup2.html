@@ -4,7 +4,7 @@
     <link rel="icon" href="favicon.png" type="image/png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JANULO</title>
+    <title>Janusz Andrzejewski</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
@@ -17,7 +17,6 @@
             --highlight-color: #6495ED;
             --text-color: #f0f0f0;
         }
-
 
         html {
             scroll-behavior: smooth;
@@ -183,28 +182,95 @@
             transform: translateY(0);
         }
 
-        /* NOWOŚĆ: Style dla żartu o Linuksie */
+        /* Style dla żartu o Linuksie */
         .linux-joke {
-            cursor: pointer; /* Zmienia kursor na "rączkę", sugerując interakcję */
+            cursor: pointer;
         }
 
         .linux-joke .hover-text {
-            display: none; /* Domyślnie ukrywa tekst, który ma się pojawić po najechaniu */
-            color: var(--highlight-color); /* Używa koloru podświetlenia dla nowego tekstu */
+            display: none;
+            color: var(--highlight-color);
             font-weight: bold;
         }
 
         .linux-joke:hover .original-text {
-            display: none; /* Ukrywa oryginalny tekst po najechaniu */
+            display: none;
         }
 
         .linux-joke:hover .hover-text {
-            display: inline; /* Pokazuje nowy tekst po najechaniu */
+            display: inline;
+        }
+
+        /* === NOWE STYLE: KAFELEK Z OBRAZKIEM W ROGU === */
+        .hover-image-container {
+            position: fixed; /* Stała pozycja na ekranie */
+            top: 20px;
+            right: 20px;
+            z-index: 1001; /* Wyżej niż nawigacja */
+        }
+
+        .hover-tile {
+            width: 50px;
+            height: 50px;
+            background-color: var(--highlight-color);
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .hover-image-container .hidden-image {
+            display: none; /* Domyślnie ukryty */
+            position: absolute;
+            top: 0;
+            right: 60px; /* Pozycja obrazka względem kafelka */
+            width: 300px;
+            height: auto;
+            border: 3px solid var(--highlight-color);
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+        }
+
+        .hover-image-container:hover .hidden-image {
+            display: block; /* Pokaż obrazek po najechaniu na kontener */
+        }
+
+        .hover-image-container:hover .hover-tile {
+            transform: scale(1.1); /* Lekkie powiększenie kafelka */
+        }
+
+        /* === POPRAWKI RESPONSIVE DLA NAWIGACJI === */
+
+        @media (max-width: 768px) {
+            .nav-links a {
+                padding: 15px 20px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .nav-links {
+                flex-direction: column;
+                align-items: center;
+                padding-top: 10px;
+                padding-bottom: 10px;
+            }
+            .nav-links a {
+                padding: 12px 20px;
+                width: 90%;
+                text-align: center;
+            }
+            nav {
+                padding: 0;
+            }
         }
 
     </style>
 </head>
 <body>
+
+    <div class="hover-image-container">
+        <div class="hover-tile"></div>
+        <img src="kochac_pwr.png" alt="Ukryty obrazek" class="hidden-image">
+    </div>
 
     <nav>
         <ul class="nav-links">
@@ -218,7 +284,7 @@
 
     <header class="hero fade-in-section">
         <img id="moje-zdjecie" src="farma.jpeg" alt="Moje zdjęcie">
-        <h1>Janulo</h1>
+        <h1>Janusz Andrzejewski</h1>
     </header>
 
     <main class="container">
@@ -236,7 +302,7 @@
 
 
         <section id="osiagniecia" class="fade-in-section">
-            <h2>Osiągnięcia/</h2>
+            <h2>Osiągnięcia</h2>
             <ul>
                 <li>Wolontariusz Juwelaliów PWR 2025</li>
                 <li>Dni Kultury  - P.I.W.O. 2025</li>
@@ -301,7 +367,7 @@
 
         <section id="kontakt" class="fade-in-section">
             <h2>Kontakt</h2>
-            <p>Możesz się ze mną skontaktować przez email: <strong>nie możesz</strong></p>
+            <p>Możesz się ze mną skontaktować przez email: <strong>284052@student.pwr.edu.pl</strong></p>
         </section>
 
     </main>
