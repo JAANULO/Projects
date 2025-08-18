@@ -272,6 +272,61 @@
             }
         }
 
+        /* === NOWE STYLE DLA ROZWIJANYCH PROJEKTÓW === */
+        .projekt-toggle {
+            cursor: pointer;
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            padding: 15px 20px;
+            margin-top: 20px;
+            margin-bottom: 0;
+            border-radius: 8px;
+            transition: background-color 0.3s;
+            display: flex;
+            align-items: center;
+        }
+
+        .projekt-toggle::after {
+            content: '+';
+            font-size: 1.5em;
+            margin-left: auto;
+            transition: transform 0.3s;
+        }
+
+        .projekt-toggle.active::after {
+            content: '-';
+            transform: rotate(180deg);
+        }
+
+        .projekt-toggle:hover {
+            background-color: #273452;
+        }
+
+        .projekt-content {
+            background-color: var(--primary-color);
+            border-radius: 8px;
+            padding: 0 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-in-out, padding 0.4s ease-in-out;
+        }
+
+        /* Aktywna klasa, która rozwija treść */
+        .projekt-content.show {
+            max-height: 2000px; /* Dostosuj w razie potrzeby */
+            padding: 20px;
+        }
+
+        /* Ukrycie tekstu "...more on Letterboxd" w widżecie */
+        iframe[src*="letterboxd-embed.timcieplowski.com"] p:last-child {
+            display: none;
+        }
+
+        /* Upewnij się, że tekst wewnątrz jest poprawnie ostylowany */
+        .projekt-content ul {
+            padding-left: 20px;
+        }
+
     </style>
 </head>
 <body>
@@ -315,14 +370,36 @@
                 <li>Wolontariusz Juwelaliów PWR 2025</li>
                 <li>Dni Kultury  - P.I.W.O. 2025</li>
                 <li>Kostka Rubika 3x3 <1min </li>
-                <li>1299 elo w szachach szybkich na chesscom</li>
+                <li>max 1299 elo w szachach szybkich na chesscom</li>
             </ul>
         </section>
 
         <section id="projekty" class="fade-in-section">
             <h2>Projekty</h2>
-            <p>no narazie tak średnio bym powiedział</p>
-            <p><a href="https://github.com/JAANULO" target="_blank">GIT</a></p>
+
+            <div class="projekt">
+
+                <h3 class="projekt-toggle">Strona Portfolio (obecny projekt)</h3>
+                <div class="projekt-content">
+                    <p>To portfolio, które właśnie przeglądasz. Zbudowane od podstaw, aby przećwiczyć HTML, CSS i podstawy JavaScript.</p>
+                    <ul>
+                        <li><strong>Technologie:</strong> HTML5, CSS3, JavaScript</li>
+                    </ul>
+                    <p><a href="https://github.com/JAANULO" target="_blank">Zobacz kod na GitHubie</a></p>
+                </div>
+            </div>
+
+            <div class="projekt">
+                <h3 class="projekt-toggle">Filmy</h3>
+                <div class="projekt-content">
+                    <p><strong>Początki: </strong>dd</p>
+                    <p><strong>Obecnie </strong>dd</p>
+
+                    <p>Moje ostatnie recenzje:</p>
+                    <div id="letterboxd-embed-wrapper-tc">Ładowanie recenzji...</div>
+                </div>
+            </div>
+
         </section>
 
         <section id="galeria" class="fade-in-section">
@@ -401,6 +478,37 @@
 
             sections.forEach(section => {
                 observer.observe(section);
+            });
+
+
+            // === NOWY KOD JAVASCRIPT DLA ROZWIJANYCH PROJEKTÓW ===
+            const toggles = document.querySelectorAll('.projekt-toggle');
+
+            toggles.forEach(toggle => {
+                toggle.addEventListener('click', () => {
+                    const content = toggle.nextElementSibling;
+
+                    // Zwiń wszystkie otwarte projekty
+                    document.querySelectorAll('.projekt-content.show').forEach(item => {
+                        // Upewnij się, że nie zwijasz właśnie tego, w który kliknąłeś
+                        if (item !== content) {
+                            item.classList.remove('show');
+                            item.previousElementSibling.classList.remove('active');
+                        }
+                    });
+
+                    // Przełącz klasę 'active' na nagłówku i 'show' na treści
+                    toggle.classList.toggle('active');
+                    content.classList.toggle('show');
+                });
+            });
+
+
+        // === KOD JAVASCRIPT DO POBIERANIA RECENZJI Z LETTERBOXD ===
+        fetch('https://lb-embed-content.bokonon.dev?username=janulo&limit=3'+ new Date().getTime())
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('letterboxd-embed-wrapper-tc').innerHTML = data;
             });
         });
     </script>

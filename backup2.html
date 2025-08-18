@@ -272,6 +272,56 @@
             }
         }
 
+        /* === NOWE STYLE DLA ROZWIJANYCH PROJEKTÓW === */
+        .projekt-toggle {
+            cursor: pointer;
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            padding: 15px 20px;
+            margin-top: 20px;
+            margin-bottom: 0;
+            border-radius: 8px;
+            transition: background-color 0.3s;
+            display: flex;
+            align-items: center;
+        }
+
+        .projekt-toggle::after {
+            content: '+';
+            font-size: 1.5em;
+            margin-left: auto;
+            transition: transform 0.3s;
+        }
+
+        .projekt-toggle.active::after {
+            content: '-';
+            transform: rotate(180deg);
+        }
+
+        .projekt-toggle:hover {
+            background-color: #273452;
+        }
+
+        .projekt-content {
+            background-color: var(--primary-color);
+            border-radius: 8px;
+            padding: 0 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-in-out, padding 0.4s ease-in-out;
+        }
+
+        /* Aktywna klasa, która rozwija treść */
+        .projekt-content.show {
+            max-height: 2000px; /* Dostosuj w razie potrzeby */
+            padding: 20px;
+        }
+
+        /* Upewnij się, że tekst wewnątrz jest poprawnie ostylowany */
+        .projekt-content ul {
+            padding-left: 20px;
+        }
+
     </style>
 </head>
 <body>
@@ -309,7 +359,6 @@
             </p>
         </section>
 
-
         <section id="osiagniecia" class="fade-in-section">
             <h2>Osiągnięcia</h2>
             <ul>
@@ -322,8 +371,31 @@
 
         <section id="projekty" class="fade-in-section">
             <h2>Projekty</h2>
-            <p>no narazie tak średnio bym powiedział</p>
-            <p><a href="https://github.com/JAANULO" target="_blank">GIT</a></p>
+
+            <div class="projekt">
+
+                <h3 class="projekt-toggle">Strona Portfolio (obecny projekt)</h3>
+                <div class="projekt-content">
+                    <p>To portfolio, które właśnie przeglądasz. Zbudowane od podstaw, aby przećwiczyć HTML, CSS i podstawy JavaScript.</p>
+                    <ul>
+                        <li><strong>Technologie:</strong> HTML5, CSS3, JavaScript</li>
+                    </ul>
+                    <p><a href="https://github.com/JAANULO" target="_blank">Zobacz kod na GitHubie</a></p>
+                </div>
+            </div>
+
+            <div class="projekt">
+                <h3 class="projekt-toggle">Filmy</h3>
+                <div class="projekt-content">
+                    <p><strong>Początki: </strong>dd</p>
+                    <p><strong>Obecnie </strong>dd</p>
+                    <p>Moje ostatnie recenzje:</p>
+                    <div id="letterboxd-embed-wrapper-tc">Ładowanie recenzji...</div>
+                    <p><strong>W przyszłości </strong>ddd</p>
+
+                </div>
+            </div>
+
         </section>
 
         <section id="galeria" class="fade-in-section">
@@ -403,7 +475,72 @@
             sections.forEach(section => {
                 observer.observe(section);
             });
-        });
+
+
+            // === NOWY KOD JAVASCRIPT DLA ROZWIJANYCH PROJEKTÓW ===
+            const toggles = document.querySelectorAll('.projekt-toggle');
+
+            toggles.forEach(toggle => {
+                toggle.addEventListener('click', () => {
+                    const content = toggle.nextElementSibling;
+
+                    // Zwiń wszystkie otwarte projekty
+                    document.querySelectorAll('.projekt-content.show').forEach(item => {
+                        // Upewnij się, że nie zwijasz właśnie tego, w który kliknąłeś
+                        if (item !== content) {
+                            item.classList.remove('show');
+                            item.previousElementSibling.classList.remove('active');
+                        }
+                    });
+
+                    // Przełącz klasę 'active' na nagłówku i 'show' na treści
+                    toggle.classList.toggle('active');
+                    content.classList.toggle('show');
+                });
+            });
+
+        // Tworzenie nowego elementu, który pozwoli przeglądarce przetworzyć tekst w kod HTML
+    const parser = new DOMParser();
+
+    fetch('https://api.allorigins.win/raw?url=' + encodeURIComponent('https://letterboxd.com/janulo/rss/'))
+    .then(response => response.text())
+    .then(str => parser.parseFromString(str, "text/xml"))
+    .then(data => {
+        // Znalezienie wszystkich elementów <item> w kanale RSS
+        const items = data.querySelectorAll("item");
+
+        // Utworzenie pustego ciągu znaków do przechowywania HTML-a
+        let htmlContent = '';
+
+        // Pętla po pierwszych trzech elementach
+        for (let i = 0; i < 3 && i < items.length; i++) {
+            const item = items[i];
+
+            // Wyodrębnianie tytułu, opisu i linku
+            const title = item.querySelector("title").textContent;
+            const description = item.querySelector("description").textContent;
+            const link = item.querySelector("link").textContent;
+
+            // Tworzenie fragmentu HTML dla każdej recenzji
+            htmlContent += `
+                <div class="review-item">
+                    <h4><a href="${link}" target="_blank">${title}</a></h4>
+                    <p>${description}</p>
+                </div>
+            `;
+        }
+
+        // Wstawienie gotowego kodu HTML do kontenera
+        document.getElementById('letterboxd-embed-wrapper-tc').innerHTML = htmlContent;
+    })
+    .catch(error => {
+        console.error('Błąd podczas pobierania recenzji:', error);
+        document.getElementById('letterboxd-embed-wrapper-tc').innerHTML = 'Nie udało się załadować recenzji.';
+    });
+});
+
+
+
     </script>
 </body>
 </html>
