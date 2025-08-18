@@ -216,6 +216,15 @@
             border-radius: 5px;
             cursor: pointer;
             transition: all 0.3s ease;
+                /* DODANE STYLE DO TEKSTU */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-color);
+            font-family: 'Montserrat', sans-serif;
+            font-weight: bold;
+            font-size: 0.9rem;
+
         }
 
         .hover-image-container .hidden-image {
@@ -268,7 +277,7 @@
 <body>
 
     <div class="hover-image-container">
-        <div class="hover-tile"></div>
+        <div class="hover-tile">INFO</div>
         <img src="kochac_pwr.png" alt="Ukryty obrazek" class="hidden-image">
     </div>
 
